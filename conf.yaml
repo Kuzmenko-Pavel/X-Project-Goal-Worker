@@ -1,0 +1,15 @@
+mongo:
+  uri: mongodb://srv-5.yottos.com:27017/adv_log?maxPoolSize=200&w=0
+  db: adv_log
+  collection:
+    click: log.click
+    goals: log.goals
+
+amqp:
+  broker_url: amqp://x-project-goals:x-project-goals@amqp.yottos.com/x-project-goals?socket_timeout=1&heartbeat=60
+  queue: goals
+  exchange: goals
+  exchange_type: topic
+  routing_key: '*.*'
+  durable: true
+  auto_delete: false
