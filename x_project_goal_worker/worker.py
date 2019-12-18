@@ -37,8 +37,8 @@ class Worker(Thread):
             d = json.loads(data)
             cid = d.get('cid')
             if cid:
-                currency = d.get('currency')
-                price = d.get('price')
+                currency = d.get('currency', 'UAH')
+                price = float(d.get('price', 0))
                 click = self.click_collection.find_one({'cid': cid})
                 if click:
                     id_account_left = click.get('id_account_left')
@@ -61,7 +61,7 @@ class Worker(Thread):
                             doc['goal'] = 1
                             doc['goal_cost'] = price
             if doc:
-                self.goals_collection.insert_one(doc)
+                # self.goals_collection.insert_one(doc)
                 print(doc)
             else:
                 logger.info('Received message # %s: %s', key, data)
