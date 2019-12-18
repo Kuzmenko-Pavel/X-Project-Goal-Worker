@@ -1,6 +1,6 @@
 import time
 from threading import Thread
-from uuid import uuid4
+from datetime import datetime
 import json
 from prices import Money
 
@@ -57,14 +57,16 @@ class Worker(Thread):
                         doc['goal'] = 0
                         doc['goal_cost'] = 0
                         doc['goal_auto'] = 1
+                        doc['cid'] = cid
+                        doc['dt'] = datetime.now()
                         if key == 'goal.manual':
                             doc['goal'] = 1
                             doc['goal_cost'] = price
             if doc:
-                # self.goals_collection.insert_one(doc)
-                print(doc)
+                self.goals_collection.insert_one(doc)
             else:
                 logger.info('Received message # %s: %s', key, data)
         except Exception as e:
+            print(data)
             logger.error(exception_message(exc=str(e)))
 
